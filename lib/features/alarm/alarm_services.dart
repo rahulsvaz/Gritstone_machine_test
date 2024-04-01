@@ -1,12 +1,14 @@
 import 'package:alarm/model/alarm_settings.dart';
 
 class ALaramServices {
-  static final alaramSetting = AlarmSettings(
+
+  
+  static final alarmSetting = AlarmSettings(
       id: 1,
       volume: 1,
       dateTime: DateTime.now(),
       assetAudioPath: 'assets/mp3/Periyone.mp3',
-      notificationTitle: 'Alaram',
-      notificationBody: 'Alaram Test',
+      notificationTitle: 'Alarm',
+      notificationBody: 'Alarm Test',
       enableNotificationOnKill: true);
 }

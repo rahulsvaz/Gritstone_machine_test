@@ -7,5 +7,13 @@ sealed class AlarmEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SetAlarmEvent extends AlarmEvent{}
-class StopAlarmEvent extends AlarmEvent{}
+class SetAlarmEvent extends AlarmEvent {
+  final BuildContext context;
+
+
+  const SetAlarmEvent( {required this.context});
+  @override
+  List<Object> get props => [context];
+}
+
+class StopAlarmEvent extends AlarmEvent {}
