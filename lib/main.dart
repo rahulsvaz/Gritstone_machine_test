@@ -1,6 +1,7 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:gritstone_machine_test/features/home_screen/view/home_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async{  WidgetsFlutterBinding.ensureInitialized();
 

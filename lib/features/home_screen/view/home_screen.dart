@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:alarm/alarm.dart';
@@ -117,13 +118,28 @@ class _HomeScreenState extends State<HomeScreen> {
               left: 0,
               right: 0,
               child: TextButton(
-                onPressed: () async{
-                 await Alarm.set(alarmSettings: ALaramServices.alaramSetting);
+                onPressed: () async {
+                  try {
+                    await Alarm.set(
+                        alarmSettings: ALaramServices.alaramSetting);
+                  } catch (e) {
+                    log(e.toString());
+                  }
                 },
-                child: const Text('Add Alaram'),
+                child: const Text('Add Alarm'),
               ))
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        try {
+          await Alarm.stop(1);
+        } catch (e) {
+          log(
+            e.toString(),
+          );
+        }
+        
+      }),
     );
   }
 }
