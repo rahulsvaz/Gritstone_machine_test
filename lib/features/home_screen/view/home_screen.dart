@@ -1,9 +1,12 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
 import 'package:gritstone_machine_test/features/home_screen/view/Widgets/bg_filtter.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/Widgets/location_text.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/Widgets/set_alarm_row.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/temperature_text.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/temperature.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/weather_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,48 +28,28 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned(
             top: height * 0.08,
             left: width * 0.1,
-            child: Text(
-              'Kozhikode',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: height * 0.03,
-                  fontWeight: FontWeight.bold),
-            ),
+            child: LocationText(height: height),
           ),
           Positioned(
             top: height * 0.14,
             left: 0,
             right: 0,
             child: Center(
-              child: Image.asset(height: height * 0.34, 'assets/images/1.png'),
+              child: WeatherImage(height: height),
             ),
           ),
           Positioned(
             top: height * 0.48,
             left: 0,
             right: 0,
-            child: const Center(
-              child: Text(
-                '30°C',
-                style: TextStyle(
-                    fontSize: 55,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-            ),
+            child: const Temperature(),
           ),
           Positioned(
             left: 0,
             right: 0,
             top: height * 0.56,
             child: const Center(
-              child: Text(
-                'Heat',
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
+              child: TemperatureText(),
             ),
           ),
           const SizedBox(
@@ -76,34 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: width * 0.05,
             right: 0,
             top: height * 0.65,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const Center(
-                  child: Text(
-                    'Alarms',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-                SizedBox(
-                  width: width * 0.5,
-                ),
-                IconButton(
-                  onPressed: () async {
-                    BlocProvider.of<AlarmBloc>(context).add(
-                      SetAlarmEvent(context: context),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                )
-              ],
-            ),
+            child: SetAlarmSection(width: width),
           ),
           Positioned(
               top: height * 0.90,
@@ -136,3 +92,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
