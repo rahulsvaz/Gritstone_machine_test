@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
 import 'package:gritstone_machine_test/features/home_screen/view/Widgets/bg_filtter.dart';
 import 'package:gritstone_machine_test/features/home_screen/view/Widgets/location_text.dart';
 import 'package:gritstone_machine_test/features/home_screen/view/Widgets/set_alarm_row.dart';
@@ -59,7 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
             left: width * 0.05,
             right: 0,
             top: height * 0.65,
-            child: SetAlarmSection(width: width),
+            child: SetAlarmSection(
+              width: width,
+              callback: () {
+                context.read<AlarmBloc>().add(
+                      SetAlarmEvent(context: context),
+                    );
+              },
+            ),
           ),
           Positioned(
               top: height * 0.90,
@@ -92,4 +101,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
 
 class SetAlarmSection extends StatelessWidget {
+  final VoidCallback callback;
   const SetAlarmSection({
     super.key,
-    required this.width,
+    required this.width, required this.callback,
   });
 
   final double width;
@@ -28,11 +27,7 @@ class SetAlarmSection extends StatelessWidget {
           width: width * 0.5,
         ),
         IconButton(
-          onPressed: () async {
-            BlocProvider.of<AlarmBloc>(context).add(
-              SetAlarmEvent(context: context),
-            );
-          },
+          onPressed: callback,
           icon: const Icon(
             Icons.add,
             color: Colors.white,
