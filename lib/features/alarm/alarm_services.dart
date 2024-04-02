@@ -1,8 +1,6 @@
 import 'package:alarm/model/alarm_settings.dart';
 
 class ALaramServices {
-
-  
   static final alarmSetting = AlarmSettings(
       id: 1,
       volume: 1,

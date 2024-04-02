@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 part 'alarm_event.dart';
 part 'alarm_state.dart';
 
@@ -29,6 +30,9 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
           ),
         );
       } else {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('label', event.label);
+        pref.setString('time', result.toString());
         final alarmSetting = AlarmSettings(
             id: 1,
             volume: 1,
@@ -48,6 +52,7 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
             content: Text('Alarm Added At $result'),
           ),
         );
+        Navigator.pop(event.context);
         await Alarm.setNotificationOnAppKillContent(
             'Wake Up Buddy', 'You Are getting late');
       }

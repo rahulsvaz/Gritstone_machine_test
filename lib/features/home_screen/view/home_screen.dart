@@ -1,23 +1,39 @@
-import 'dart:developer';
 import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/Widgets/bg_filtter.dart';
+import 'package:gritstone_machine_test/features/alarm/ui/add_alarm_page.dart';
+import 'package:gritstone_machine_test/features/helper/helper.dart';
 import 'package:gritstone_machine_test/features/home_screen/view/Widgets/location_text.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/Widgets/set_alarm_row.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/temperature_text.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/temperature.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/weather_image.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/Widgets/temperature_text.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/Widgets/temperature.dart';
+import 'package:gritstone_machine_test/features/home_screen/view/Widgets/weather_image.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({
+    super.key,
+  });
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<AlarmSettings> alarms = [];
+
+  void loadAlarms() {
+    alarms = Alarm.getAlarms();
+    alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+  }
+
+  @override
+  void initState() {
+    if (Alarm.android) {
+      Helper.checkAndroidNotificationPermission();
+      Helper.checkAndroidScheduleExactAlarmPermission();
+    }
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
@@ -26,14 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Bg(height: height),
-          Positioned(
-            top: height * 0.08,
-            left: width * 0.1,
-            child: LocationText(height: height),
+          Image.asset(
+            'assets/images/bg.jpg',
+            height: height,
+            fit: BoxFit.cover,
           ),
           Positioned(
-            top: height * 0.14,
+            top: height * 0.02,
             left: 0,
             right: 0,
             child: Center(
@@ -41,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Positioned(
-            top: height * 0.48,
+            top: height * 0.36,
             left: 0,
             right: 0,
             child: const Temperature(),
@@ -49,55 +64,51 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned(
             left: 0,
             right: 0,
-            top: height * 0.56,
+            top: height * 0.45,
             child: const Center(
               child: TemperatureText(),
             ),
+          ),
+          Positioned(
+            top: height * 0.50,
+            left: 0,
+            right: 0,
+            child: Center(child: LocationText(height: height)),
           ),
           const SizedBox(
             height: 15,
           ),
           Positioned(
-            left: width * 0.05,
-            right: 0,
             top: height * 0.65,
-            child: SetAlarmSection(
-              width: width,
-              callback: () {
-                context.read<AlarmBloc>().add(
-                      SetAlarmEvent(context: context),
-                    );
-              },
-            ),
-          ),
-          Positioned(
-              top: height * 0.90,
-              left: 0,
-              right: 0,
+            left: 0,
+            right: 0,
+            child: Center(
               child: TextButton(
-                onPressed: () async {},
-                child: const Text('Add Alarm'),
-              )),
-          Positioned(
-            top: height * 0.70,
-            child: Container(
-              width: width,
-              height: height * 0.2,
-              color: Colors.amber,
-              child: ListView(),
+                onPressed: () async {
+                  // Alarm.stop(1);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddAlarm(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Add Alarm',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ),
+          Positioned(
+              top: height * 0.70,
+              child: Container(
+                  width: width,
+                  height: height * 0.2,
+                  child: Text('No Alarms'))),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        try {
-          await Alarm.stop(1);
-        } catch (e) {
-          log(
-            e.toString(),
-          );
-        }
-      }),
     );
   }
 }

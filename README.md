@@ -1,16 +1,10 @@
 # gritstone_machine_test
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---------------------------------------------------------------------------------------------
+Packages used in this project 
+*****************************
+Weather 
+This package uses the OpenWeatherMAP API to get the current weather status as well as weather forecasts.
+The weather can currently be fetched by providing a geoLocation or a city name.
+---------------------------------------------------------------------------------------------
+Http
+GeoLocator

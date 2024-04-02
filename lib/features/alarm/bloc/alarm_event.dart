@@ -9,9 +9,9 @@ sealed class AlarmEvent extends Equatable {
 
 class SetAlarmEvent extends AlarmEvent {
   final BuildContext context;
+  final String label;
 
-
-  const SetAlarmEvent( {required this.context});
+  const SetAlarmEvent({required this.context, required this.label});
   @override
   List<Object> get props => [context];
 }
