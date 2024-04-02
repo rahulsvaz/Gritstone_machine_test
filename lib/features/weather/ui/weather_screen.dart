@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gritstone_machine_test/features/alarm/ui/add_alarm_page.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/bg_image.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/date_time.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/developed_by.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/goto_alarm_page.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/loading.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/sunset_sunrise.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/weather_description.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/weather_image.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/bg_image.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/date_time.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/developed_by.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/get_weather_icon.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/goto_alarm_page.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/loading.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/sunset_sunrise.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/weather_description.dart';
 import 'package:gritstone_machine_test/features/weather/bloc/weather_bloc.dart';
 import 'package:gritstone_machine_test/helper/location_permission.dart';
 import 'package:gritstone_machine_test/helper/notification_permission.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/temperature_text.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/place.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/temperature_text.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/place.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({
@@ -57,7 +57,6 @@ class _WeatherPageState extends State<WeatherPage> {
             GetWeatherEvent(position: snapshot.data as Position),
           );
         }
-
         return Scaffold(
           body: Stack(
             children: [
@@ -93,6 +92,12 @@ class _WeatherPageState extends State<WeatherPage> {
                           height: height * 0.07,
                         ),
                         Place(
+                          callback: () {
+                            context.read<WeatherBloc>().add(
+                                  GetWeatherEvent(
+                                      position: snapshot.data as Position),
+                                );
+                          },
                           place: weather.areaName!,
                         ),
                         TemperatureText(
@@ -100,7 +105,8 @@ class _WeatherPageState extends State<WeatherPage> {
                               .round()
                               .toString(),
                         ),
-                        WeatherImage(height: height),
+                        HelperWidgets.getWeatherIcon(
+                            weather.weatherConditionCode!, height),
                         SizedBox(
                           height: height * 0.01,
                         ),

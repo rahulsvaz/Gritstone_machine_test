@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
-import 'package:gritstone_machine_test/features/weather/ui/Widgets/bg_filtter.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/bg_filtter.dart';
 
 class AddAlarm extends StatefulWidget {
   const AddAlarm({super.key});
@@ -14,7 +14,7 @@ class _AddAlarmState extends State<AddAlarm> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
-    final width = MediaQuery.sizeOf(context).width;
+    // final width = MediaQuery.sizeOf(context).width;
     final controller = TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -35,11 +35,12 @@ class _AddAlarmState extends State<AddAlarm> {
                 child: TextFormField(
                   controller: controller,
                   decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text(
-                        'Alarm Label',
-                        style: TextStyle(color: Colors.white),
-                      )),
+                    border: OutlineInputBorder(),
+                    label: Text(
+                      'Alarm Label',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
               ElevatedButton(
