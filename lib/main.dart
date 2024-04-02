@@ -2,12 +2,15 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/home_screen.dart';
+import 'package:gritstone_machine_test/features/weather/ui/weather_screen.dart';
+import 'package:gritstone_machine_test/features/weather/bloc/weather_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Alarm.init();
-  runApp(MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,8 +20,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AlarmBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => WeatherBloc(),
+        ),
+         BlocProvider(
+          create: (context) => AlarmBloc(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'GritStone Machine Test',
@@ -26,7 +36,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.black,
           useMaterial3: true,
         ),
-        home: const HomeScreen(),
+        home: const WeatherPage(),
       ),
     );
   }

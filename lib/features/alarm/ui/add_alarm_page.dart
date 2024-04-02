@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
-import 'package:gritstone_machine_test/features/home_screen/view/Widgets/bg_filtter.dart';
+import 'package:gritstone_machine_test/features/weather/ui/Widgets/bg_filtter.dart';
 
 class AddAlarm extends StatefulWidget {
   const AddAlarm({super.key});
