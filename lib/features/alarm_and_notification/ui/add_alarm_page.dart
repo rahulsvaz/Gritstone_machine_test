@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
+import 'package:gritstone_machine_test/features/alarm_and_notification/bloc/alarms_bloc.dart';
 import 'package:gritstone_machine_test/features/weather/ui/widgets/bg_filtter.dart';
+import 'package:gritstone_machine_test/features/weather/ui/widgets/place.dart';
 
 class AddAlarm extends StatefulWidget {
-  const AddAlarm({super.key});
+  final String place;
+  final String temp;
+  const AddAlarm({super.key, required this.place, required this.temp});
 
   @override
   State<AddAlarm> createState() => _AddAlarmState();
@@ -27,6 +30,10 @@ class _AddAlarmState extends State<AddAlarm> {
           Bg(height: height),
           Column(
             children: [
+              Place(
+                callback: () {},
+                place: widget.place,
+              ),
               SizedBox(
                 height: height * 0.1,
               ),
@@ -52,10 +59,8 @@ class _AddAlarmState extends State<AddAlarm> {
                       ),
                     );
                   } else {
-                    context.read<AlarmBloc>().add(
-                          SetAlarmEvent(
-                              context: context, label: controller.text),
-                        );
+                    context.read<AlarmsBloc>().add(AddAlarmEvent(
+                        context: context, label: controller.text));
                   }
                 },
                 child: const Text('Next'),

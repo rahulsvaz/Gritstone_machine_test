@@ -1,7 +1,7 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gritstone_machine_test/features/alarm/bloc/alarm_bloc.dart';
+import 'package:gritstone_machine_test/features/alarm_and_notification/bloc/alarms_bloc.dart';
 import 'package:gritstone_machine_test/features/weather/ui/weather_screen.dart';
 import 'package:gritstone_machine_test/features/weather/bloc/weather_bloc.dart';
 
@@ -12,6 +12,7 @@ void main() async {
     const MyApp(),
   );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => WeatherBloc(),
         ),
-         BlocProvider(
-          create: (context) => AlarmBloc(),
+        BlocProvider(
+          create: (context) => AlarmsBloc()
+           
         ),
       ],
       child: MaterialApp(

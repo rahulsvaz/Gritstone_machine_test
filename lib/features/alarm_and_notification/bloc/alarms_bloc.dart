@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
 import 'package:bloc/bloc.dart';
@@ -7,16 +8,18 @@ import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-part 'alarm_event.dart';
-part 'alarm_state.dart';
 
-class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
-  AlarmBloc() : super(AlarmInitial()) {
-    on<SetAlarmEvent>(_setAlarmEvent);
+part 'alarms_event.dart';
+part 'alarms_state.dart';
+
+class AlarmsBloc extends Bloc<AlarmsEvent, AlarmsState> {
+  AlarmsBloc() : super(AlarmsInitial()) {
+    on<AddAlarmEvent>(_addAlarm);
+    on<AlarmInitialEvent>(_initDatabase);
   }
 
-  FutureOr<void> _setAlarmEvent(
-      SetAlarmEvent event, Emitter<AlarmState> emit) async {
+  FutureOr<void> _addAlarm(
+      AddAlarmEvent event, Emitter<AlarmsState> emit) async {
     try {
       final result = await showBoardDateTimePicker(
         options: const BoardDateTimeOptions(backgroundColor: Colors.white),
@@ -30,20 +33,22 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
           ),
         );
       } else {
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setString('label', event.label);
-        pref.setString('time', result.toString());
         final alarmSetting = AlarmSettings(
             id: 1,
             volume: 1,
             dateTime: result,
             assetAudioPath: 'assets/mp3/Periyone.mp3',
-            notificationTitle: 'Alarm',
+            notificationTitle: event.label,
             loopAudio: false,
-            notificationBody: 'Alarm Test',
+            notificationBody: 'Please Open the App To Turn Off Alarm',
             enableNotificationOnKill: true);
 
         await Alarm.set(alarmSettings: alarmSetting);
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString('label', event.label);
+        emit(
+          AlarmAddedState(label: event.label, addedDate: result, pref),
+        );
         log(
           'Alarm added ',
         );
@@ -58,6 +63,21 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
       }
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  FutureOr<void> _initDatabase(
+      AlarmInitialEvent event, Emitter<AlarmsState> emit) async {
+
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      emit(DataBaseInitial(pref: pref));
+      log('database');
+      log(pref.getString('label').toString());
+        emit(DataBaseInitial(pref: pref));
+    } catch (e) {
+      log(e.toString());
+    
     }
   }
 }
