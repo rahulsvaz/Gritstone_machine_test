@@ -52,7 +52,7 @@ class AlarmWidget extends StatelessWidget {
                 color: Colors.green,
               ),
             ),
-          const  SizedBox(
+            const SizedBox(
               width: 30,
             ),
             IconButton(
@@ -78,7 +78,9 @@ class AlarmWidget extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                context.read<AlarmsBloc>().add(DeleteAlarmsEvent(context: context));
+                context
+                    .read<AlarmsBloc>()
+                    .add(DeleteAlarmsEvent(context: context));
               },
               icon: const Icon(
                 Icons.delete,
