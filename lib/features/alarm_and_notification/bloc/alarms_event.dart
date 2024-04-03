@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'alarms_bloc.dart';
 
 sealed class AlarmsEvent extends Equatable {
@@ -23,6 +24,15 @@ class DataBaseInitEvent extends AlarmsEvent {}
 
 class EditAlarmsEvent extends AlarmsEvent {}
 
-class DeleteAlarmsEvent extends AlarmsEvent {}
+class DeleteAlarmsEvent extends AlarmsEvent {
+  final BuildContext context;
+ const  DeleteAlarmsEvent({
+    required this.context,
+  });
+
+    @override
+  List<Object> get props => [context];
+
+}
 
 class InitDataBaseEvent extends AlarmsEvent {}

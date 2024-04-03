@@ -7,6 +7,7 @@ import 'package:bloc/bloc.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'alarms_event.dart';
@@ -16,6 +17,7 @@ class AlarmsBloc extends Bloc<AlarmsEvent, AlarmsState> {
   AlarmsBloc() : super(AlarmsInitial()) {
     on<AddAlarmEvent>(_addAlarm);
     on<AlarmInitialEvent>(_initDatabase);
+    on<DeleteAlarmsEvent>(_deleteAlarm);
   }
 
   FutureOr<void> _addAlarm(
@@ -46,6 +48,8 @@ class AlarmsBloc extends Bloc<AlarmsEvent, AlarmsState> {
         await Alarm.set(alarmSettings: alarmSetting);
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString('label', event.label);
+        pref.setString('alarmTime',
+            DateFormat('EEEE M/d/y').add_jm().format(result).toString());
         emit(
           AlarmAddedState(label: event.label, addedDate: result, pref),
         );
@@ -68,16 +72,31 @@ class AlarmsBloc extends Bloc<AlarmsEvent, AlarmsState> {
 
   FutureOr<void> _initDatabase(
       AlarmInitialEvent event, Emitter<AlarmsState> emit) async {
-
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
       emit(DataBaseInitial(pref: pref));
       log('database');
       log(pref.getString('label').toString());
-        emit(DataBaseInitial(pref: pref));
+
+      emit(DataBaseInitial(pref: pref));
     } catch (e) {
       log(e.toString());
-    
     }
+  }
+
+  FutureOr<void> _deleteAlarm(
+      DeleteAlarmsEvent event, Emitter<AlarmsState> emit) async {
+    await Alarm.stop(1);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('label', 'No Alarms Found');
+
+    pref.setString('alarmTime', '');
+
+    emit(AlarmDeletedState());
+    ScaffoldMessenger.of(event.context).showSnackBar(
+      const SnackBar(
+        content: Text('Alarm Deleted '),
+      ),
+    );
   }
 }
