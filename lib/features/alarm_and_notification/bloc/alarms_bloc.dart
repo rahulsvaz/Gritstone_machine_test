@@ -16,10 +16,20 @@ part 'alarms_state.dart';
 class AlarmsBloc extends Bloc<AlarmsEvent, AlarmsState> {
   AlarmsBloc() : super(AlarmsInitial()) {
     on<AddAlarmEvent>(_addAlarm);
+
     on<AlarmInitialEvent>(_initDatabase);
     on<DeleteAlarmsEvent>(_deleteAlarm);
   }
 
+/* to add alarm
+ first we are selecting a date with showboardDateTime Picker
+
+ set alarm details 
+ then call the function alarm .set and pass the alarm details inside the function
+
+ same as edit and delete alarm option we can change the data with in the event
+
+*/
   FutureOr<void> _addAlarm(
       AddAlarmEvent event, Emitter<AlarmsState> emit) async {
     try {
@@ -69,6 +79,12 @@ class AlarmsBloc extends Bloc<AlarmsEvent, AlarmsState> {
       log(e.toString());
     }
   }
+
+  /*
+  here we init database and set label and time as string and passing in the states and events
+  so whenever we hit an event and emit a state we can easily access tha shared preferences data with 
+  event and emit key word 
+  */
 
   FutureOr<void> _initDatabase(
       AlarmInitialEvent event, Emitter<AlarmsState> emit) async {

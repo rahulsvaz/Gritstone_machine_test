@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gritstone_machine_test/features/alarm_and_notification/bloc/alarms_bloc.dart';
 import 'package:gritstone_machine_test/features/alarm_and_notification/ui/add_alarm_page.dart';
@@ -26,10 +25,14 @@ class AlarmWidget extends StatelessWidget {
         SizedBox(
           height: height * 0.06,
         ),
+       
         Text(
           alarmInfo,
           style: const TextStyle(
               fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+ SizedBox(
+          height: height * 0.01,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

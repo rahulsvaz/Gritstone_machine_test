@@ -70,22 +70,23 @@ class _WeatherPageState extends State<WeatherPage> {
                           String alarmInfo = 'NO ALARMS FOUND';
                           String alarmTime ='';
                           if (state is DataBaseInitial) {
+                          
 
-                            state.pref.getString('label')!.isEmpty
+                            state.pref.getString('label') == null
                                 ? alarmInfo = 'No Alarms '
                                 : alarmInfo = state.pref
                                     .getString('label')!
                                     .toUpperCase();
 
 
-                                     state.pref.getString('alarmTime')!.isEmpty
+                                     state.pref.getString('alarmTime') == null
                                 ? alarmTime = ''
                                 : alarmTime = state.pref
                                     .getString('alarmTime')!
                                     .toUpperCase();
 
 
-                                    
+                            
                           }
                           if (state is AlarmAddedState) {
                             String? label = state.pref.getString('label');
