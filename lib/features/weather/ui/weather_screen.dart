@@ -62,7 +62,7 @@ class _WeatherPageState extends State<WeatherPage> {
             children: [
               BgImage(height: height),
               Positioned(
-                top: height * 0.8,
+                top: height * 0.85,
                 left: 0,
                 right: 0,
                 child: Center(
